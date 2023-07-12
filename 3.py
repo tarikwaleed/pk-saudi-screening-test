@@ -5,10 +5,10 @@ from hijridate import Hijri
 df = pd.read_csv("input.csv")
 
 # Create a new column 'valid' in the DataFrame
-df["valid"] = True
+df["FAPPLDAT_VALID"] = True
 
 # Loop over the 'birthdate' column
-for i, cell in enumerate(df["BRTHDAT"]):
+for i, cell in enumerate(df["FAPPLDAT"]):
     try:
         # Convert the cell value to Hijri date
         cell_str = str(cell)
@@ -18,7 +18,7 @@ for i, cell in enumerate(df["BRTHDAT"]):
         Hijri(year, month, day, validate=True)
     except (OverflowError, ValueError):
         # Set 'valid' to False for the corresponding row
-        df.loc[i, "valid"] = False
+        df.loc[i, "FAPPLDAT_VALID"] = False
 
 # Save the modified DataFrame to output.csv
-df.to_csv("output.csv", index=False)
+df.to_csv("output3.csv", index=False)
