@@ -1,0 +1,2 @@
+Number of empty cells: 4881
+Number of negative cells: 3

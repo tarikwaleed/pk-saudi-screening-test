@@ -1,0 +1,2 @@
+7960 numbers out of range
+334 numbers don't begin with 1 or 2
