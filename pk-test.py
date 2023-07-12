@@ -1,24 +1,24 @@
-import hijri_converter
 import pandas as pd
+from hijridate import Hijri
 
 # Read the CSV file into a DataFrame
 df = pd.read_csv("input.csv")
 
+# Create a new column 'valid' in the DataFrame
+df["valid"] = True
 
-# Define a function to check if a value is a valid Hijri date
-def is_valid_hijri_date(date_value):
+# Loop over the 'birthdate' column
+for i, cell in enumerate(df["BRTHDAT"]):
     try:
-        hijri_converter.HijriDate(date_value)
-        return True
-    except ValueError:
-        return False
+        # Convert the cell value to Hijri date
+        cell_str = str(cell)
+        year = int(cell_str[:4])
+        month = int(cell_str[4:6])
+        day = int(cell_str[6:8])
+        Hijri(year, month, day, validate=True)
+    except (OverflowError, ValueError):
+        # Set 'valid' to False for the corresponding row
+        df.loc[i, "valid"] = False
 
-
-# Apply the function to the "BRTHDAT" column and create a mask for incorrect formats
-mask = ~df["BRTHDAT"].apply(is_valid_hijri_date)
-
-# Filter the DataFrame to extract rows with incorrect format
-incorrect_rows = df[mask]
-
-# Print the rows with incorrect format
-print(incorrect_rows)
+# Save the modified DataFrame to output.csv
+df.to_csv("output.csv", index=False)
